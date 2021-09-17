@@ -1,20 +1,27 @@
 require('dotenv').config();
 const mongoose=require('mongoose');
 mongoose.connect(process.env.MONGO_URI);
- var Schema=mongoose.Schema;
- var personSchema = new Schema({
+ 
+var Schema=mongoose.Schema;
+ 
+
+var personSchema = new Schema({
   name: { type: String, required: true },
   age: Number,
   favoriteFoods: [String]
 });
+
+
 var Person = mongoose.model("Person", personSchema);
+
+
 let useful=new Person({
   name: "Useful",
   age:24,
   favoriteFoods:["chappathi","appam"]
 
 });
-var Person = mongoose.model('Person', personSchema);
+
 
 var createAndSavePerson = function(done) {
   var janeFonda = new Person({name: "Jane Fonda", age: 84, favoriteFoods: ["eggs", "fish", "fresh fruit"]});
@@ -87,7 +94,7 @@ const findAndUpdate = (personName, done) => {
   })
 };
 
-var removeById = function(personId, done) {
+const removeById = function(personId, done) {
   Person.findByIdAndRemove(
     personId,
     (err, removedDoc) => {
@@ -97,12 +104,12 @@ var removeById = function(personId, done) {
   ); 
 };
 
-var removeManyPeople = (done) => {
-  var  nameToRemove = "Mary";
-  Person.remove({name: nameToRemove}, (err, response) => {
+const removeManyPeople = (done) => {
+  const nameToRemove = "Mary";
+  Person.remove({name:nameToRemove}, (err, removeData)=>{
     if(err) return console.log(err);
-    done(null, response);
-  })
+    done(null, removeData);
+  });
 };
 
 
