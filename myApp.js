@@ -54,12 +54,31 @@ var findPersonById = function(personId, done) {
     done(null, data);
   });
 };
-var findPersonById = function(personId, done) {
-  Person.findById(personId, function (err, data) {
-    if (err) return console.log(err);
-    done(null, data);
-  });
+const findEditThenSave = (personId, done) => {
+  const foodToAdd = 'hamburger';
+
+  
+  Person.findById(personId, (err, person) => {
+    if(err) return console.log(err); 
+  
+    
+    person.favoriteFoods.push(foodToAdd);
+
+    
+    person.save((err, updatedPerson) => {
+      if(err) return console.log(err);
+      done(null, updatedPerson)
+    })
+  })
 };
+
+
+
+
+
+
+
+
 
 
 
