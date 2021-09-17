@@ -15,7 +15,7 @@ var personSchema = new Schema({
 var Person = mongoose.model("Person", personSchema);
 
 
-let useful=new Person({
+var useful=new Person({
   name: "Useful",
   age:24,
   favoriteFoods:["chappathi","appam"]
@@ -106,10 +106,29 @@ const removeById = function(personId, done) {
 
 const removeManyPeople = (done) => {
   const nameToRemove = "Mary";
-  Person.remove({name:nameToRemove}, (err, removeData)=>{
-    if(err) return console.log(err);
-    done(null, removeData);
-  });
+  Person.remove({name:nameToRemove},(err,removedata)=>{
+    if(err) console.log(err);
+    done(null,removedata);
+    //console.log(removedata);
+  })
+  //done(null /*, data*/);
+};
+const findEditThenSave = (personId, done) => {
+  const foodToAdd = 'hamburger';
+
+  // .findById() method to find a person by _id with the parameter personId as search key. 
+  Person.findById(personId, (err, person) => {
+    if(err) return console.log(err); 
+  
+    // Array.push() method to add "hamburger" to the list of the person's favoriteFoods
+    person.favoriteFoods.push(foodToAdd);
+
+    // and inside the find callback - save() the updated Person.
+    person.save((err, updatedPerson) => {
+      if(err) return console.log(err);
+      done(null, updatedPerson)
+    })
+  })
 };
 
 
